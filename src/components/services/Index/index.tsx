@@ -1,7 +1,5 @@
 import React from "react";
-import { observer } from "";
 
-@observer
 export default class Index extends React.Component {
 
 
@@ -12,7 +10,7 @@ export default class Index extends React.Component {
     public render() {
         return (
             <div>
-                1
+                <canvas id="canvas" />
             </div>
         )
     }

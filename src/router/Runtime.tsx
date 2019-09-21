@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Bundle from "./Bundle";
 import ReLoading from "widgets/ReLoading";
-import Index from "bundle-loader?lazy&name=home!services/Home/Index";
+import Index from "bundle-loader?lazy&name=home!services/Index";
 //懒加载
 
 const createComponent = (component: React.ReactNode) => {
