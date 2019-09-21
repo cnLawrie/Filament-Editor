@@ -1,0 +1,24 @@
+
+.absoluteCenter() {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// 渐变背景
+.gradient(@deg: 90deg, @start:#4dedc9,@end :#0499f0){
+    background: linear-gradient(@deg, @start, @end);
+}
+
+.icon-gradient(@start :#0499f0,@end :#4dedc9){
+    background-image: -webkit-linear-gradient(90deg, @start, @end);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.ellipsis(){
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

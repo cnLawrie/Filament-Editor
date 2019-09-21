@@ -1,0 +1,35 @@
+@import "~less/common/index.less";
+
+.loading {
+    width: 100%;
+    height: 5px;
+}
+.loading span {
+    width: 100%;
+    height: 1px;
+    background: @reColor_60809F;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 0 10px 1px fade(@reColor_60809F, 70%);
+    animation: fullspan 10s ease-out;
+    -moz-animation: fullspan 10s ease-out;
+    -webkit-animation: fullspan 10s ease-out;
+}
+
+@keyframes fullspan {
+    0% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
+}
+@keyframes fullspan {
+    0% {
+        width: 0px;
+    }
+    100% {
+        width: 100%;
+    }
+}

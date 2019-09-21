@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "strict": true,
+        "strictNullChecks": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "noImplicitAny": true,
+        "target": "es6",
+        "lib": ["dom", "es2017"],
+        "sourceMap": true,
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "core/*": ["src/core/*"],
+            "less/*": ["src/less/*"],
+            "hooks/*": ["src/hooks/*"],
+            "assets/*": ["src/assets/*"],
+            "stores/*": ["src/stores/*"],
+            "router/*": ["src/router/*"],
+            "config/*": ["src/core/config/*"],
+            "services/*": ["src/components/services/*"],
+            "widgets/*": ["src/components/widgets/*"]
+        }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"],
+    "typings": "src/core/config/global.d.ts"
+}

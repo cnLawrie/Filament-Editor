@@ -1,0 +1,209 @@
+@import "~less/common/index.less";
+@import "~less/global/antd.less";
+@import "~less/global/images.less";
+
+/* 适配iphone5 */
+@media screen and (orientation: portrait) and (max-width: @size_320) {
+    :global {
+        html {
+            font-size: 30px !important;
+        }
+    }
+}
+
+/* 适配iphone6plus */
+@media screen and (orientation: portrait) and (min-width: @size_321) and (max-width: @size_414) {
+    :global {
+        html {
+            font-size: 37.5px !important;
+        }
+    }
+}
+
+/* 适配ipad */
+@media screen and (orientation: portrait) and (min-width: @size_415) and (max-width: @size_768) {
+    :global {
+        html {
+            font-size: 40px !important;
+        }
+    }
+}
+
+/* 适配ipad pro */
+@media screen and (orientation: portrait) and (min-width: @size_769) and (max-width: @size_1024) {
+    :global {
+        html {
+            font-size: 50px !important;
+        }
+    }
+}
+
+/* 适配iphone5 */
+@media screen and (orientation: landscape) and (max-width: @size_568) {
+    html {
+        font-size: 30px !important;
+    }
+}
+
+/* 适配iphone6plus */
+@media screen and (orientation: landscape) and (min-width: @size_667) and (max-width: @size_812) {
+    html {
+        font-size: 37.5px !important;
+    }
+}
+
+/* 适配ipad */
+@media screen and (orientation: landscape) and (min-width: @size_813) and (max-width: @size_1024) {
+    html {
+        font-size: 40px !important;
+    }
+}
+
+/* 适配ipad pro */
+@media screen and (orientation: landscape) and (min-width: @size_1025) and (max-width: @size_1366) {
+    html {
+        font-size: 50px !important;
+    }
+}
+
+/* 定义多个全局样式 */
+:global {
+    /* 公共样式--开始 */
+    html,
+    body,
+    div,
+    ul,
+    li,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    dl,
+    dt,
+    dd,
+    ol,
+    form,
+    input,
+    textarea,
+    th,
+    td,
+    select {
+        margin: 0;
+        padding: 0;
+    }
+    * {
+        box-sizing: border-box;
+        touch-action: pan-y;
+
+        // 滚动条整体部分，其中的属性有width,height,background,border等（就和一个块级元素一样）
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 100%;
+            background: lighten(black, 30%);
+        }
+        // 滚动条里面可以拖动的那部分
+        &::-webkit-scrollbar-thumb {
+            background: lighten(black, 30%);
+            border-radius: 10px;
+        }
+        // 外层轨道，可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果
+        &::-webkit-scrollbar-track {
+            background: lighten(black, 10%);
+        }
+        // 滚动条两端的按钮
+        &::-webkit-scrollbar-button {
+            display: none;
+        }
+        // 内层轨道，滚动条中间部分
+        &::-webkit-scrollbar-track-piece {
+            visibility: hidden;
+        }
+        // 边角
+        &::-webkit-scrollbar-corner {
+            border-radius: 10px;
+        }
+    }
+    html,
+    body {
+        height: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: "Noto Sans CJK SC", "Source Han Sans CN";
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: normal;
+    }
+    ul,
+    ol {
+        list-style: none;
+    }
+
+    img {
+        vertical-align: middle;
+        border: none;
+    }
+
+    a {
+        color: #232323;
+        text-decoration: none;
+    }
+
+    table {
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    input,
+    textarea {
+        border: none;
+        outline: none;
+    }
+
+    textarea {
+        overflow: auto;
+        resize: none;
+    }
+
+    #app {
+        height: 100%;
+    }
+
+    /* 公共样式--结束 */
+    .transformProgressArrowsBg {
+        background-image: @transformProgressArrows;
+    }
+    
+    .stripeBg {
+        background-image: @stripeBg;
+    }
+    
+    .folderBg {
+        background-image: @folder;
+    }
+    
+    .transformProgressBg {
+        background-image: @transformProgress;
+    }
+    
+    .dashBg {
+        background-image: @dashBg;
+    }
+    
+    .grayLogoBg {
+        background-image: @grayLogo;
+    }
+    
+    .folderShadowBg {
+        background-image: @folderShadow;
+    }
+}

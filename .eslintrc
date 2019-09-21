@@ -1,0 +1,63 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "react-hooks"],
+    "extends": [
+        // "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "ecmaVersion": 8,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true,
+            "legacyDecorators": true
+        },
+        "useJSXTextNode": true
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "rules": {
+        "no-mixed-spaces-and-tabs": "off",
+        "camelcase": "off",
+        "prefer-rest-params": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/class-name-casing": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "react-hooks/rules-of-hooks": "error",
+        // "react-hooks/exhaustive-deps": "warn",
+        "eqeqeq": "warn",
+        "curly": "error",
+        "no-undef": "error",
+        "no-unused-vars": [
+            0,
+            {
+                "vars": "all",
+                "args": "none"
+            }
+        ],
+        "max-params": [0, 8]
+    },
+    "globals": {
+        "pc": true,
+        "$$": true,
+        "@": true
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

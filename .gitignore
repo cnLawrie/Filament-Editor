@@ -1,0 +1,14 @@
+# MAC
+.idea
+.DS_Store
+
+# Node
+node_modules/
+
+# Build
+dist/
+
+src/core/config/config.ts
+
+# vsCode
+.vscode
