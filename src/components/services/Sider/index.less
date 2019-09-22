@@ -1,0 +1,49 @@
+@import "~less/common/index.less";
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.__Sider__ {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    flex: 0 0 @sider_width;
+    width: @sider_width;
+    height: 100%;
+    margin-top: -.1px;
+    padding-top: .1px;
+    overflow-y: auto;
+    background-color: #fff;
+	
+    :global {
+        // reset tabs
+        .ant-tabs {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #F5F5F5;
+            &-bar {
+                background: #FFF;
+            }
+            &-tab {
+                width: 42px;
+                padding: 15px 10px !important;
+				color: #7F8FA4;
+				
+				&-active{
+					color: #0BB5CF;
+				}
+            }
+            &-content {
+                flex-grow: 1;
+            }
+            &-tabpane {
+                position: relative;
+            }
+        }
+    }
+}

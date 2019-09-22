@@ -1,4 +1,4 @@
-import { urls } from "./index";
+import { urls } from "../index";
 
 class Camera {
     store: any;

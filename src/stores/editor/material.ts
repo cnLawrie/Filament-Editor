@@ -1,4 +1,5 @@
-import { urls } from "./config/urls";
+import { urls } from "../config/urls";
+import { observable as o, action as a, toJS } from "mobx";
 
 class Material {
     store: any;
@@ -7,8 +8,42 @@ class Material {
     skybox: any;
     matinstance: any;
 
+    @o baseColor = [1, 1, 1]
+    @o metallic = 0
+    @o roughness = 0
+    @o reflectance = 0.5
+    @o clearCoat = 0
+    @o clearCoatRoughness = 0
+    @o anisotropy = 0
+    @o anisotropyDirection = [0, 0, 0]
+    @o ambientOcclusion = 0
+    @o normal = [0, 0, 0]
+    @o clearCoatNormal = [0, 0, 0]
+    @o emissive = [0, 0, 0, 0]
+    @o postLightingColor = [0, 0, 0, 0]
+
     constructor() {
         this.store = $$.events.call("store");
+    }
+
+    texturedTestParams = () => {
+        this.matinstance.setColor3Parameter(
+            "baseColor",
+            Filament.RgbType.LINEAR,
+            toJS(this.baseColor)
+        );
+        this.matinstance.setFloatParameter("metallic", this.metallic);
+        this.matinstance.setFloatParameter("roughness", this.roughness);
+        this.matinstance.setFloatParameter("reflectance", this.reflectance);
+        this.matinstance.setFloatParameter("clearCoat", this.clearCoat);
+        this.matinstance.setFloatParameter("clearCoatRoughness", this.clearCoatRoughness);
+        this.matinstance.setFloatParameter("anisotropy", this.anisotropy);
+        this.matinstance.setFloat3Parameter("anisotropyDirection", this.anisotropyDirection);
+        this.matinstance.setFloatParameter("ambientOcclusion", this.ambientOcclusion);
+        this.matinstance.setFloat3Parameter('normal', this.normal);
+        this.matinstance.setFloat3Parameter('clearCoatNormal', this.clearCoatNormal);
+        this.matinstance.setFloat4Parameter('emissive', this.emissive);
+        this.matinstance.setFloat4Parameter('postLightingColor', this.postLightingColor);
     }
 
     initialize() {
@@ -44,34 +79,11 @@ class Material {
             this.matinstance.setTextureParameter("ao", ao, sampler);
         };
 
-        const texturedTestParams = () => {
-            this.matinstance.setColor3Parameter(
-                "baseColor",
-                Filament.RgbType.sRGB,
-                [1, 1, 1],
-            );
-            this.matinstance.setFloatParameter("metallic", 1);
-            this.matinstance.setFloatParameter("roughness", 0);
-            this.matinstance.setFloatParameter("reflectance", 1);
-            this.matinstance.setFloatParameter("clearCoat", 1.0);
-            this.matinstance.setFloatParameter("clearCoatRoughness", 0.3);
-            this.matinstance.setFloatParameter("anisotropy", 0);
-            this.matinstance.setFloat3Parameter("anisotropyDirection", [
-                0,
-                0,
-                0,
-            ]);
-            this.matinstance.setFloatParameter("ambientOcclusion", 1);
-            // this.matinstance.setFloat3Parameter('normal', 1);
-            // this.matinstance.setFloat3Parameter('clearCoatNormal', 1);
-            // this.matinstance.setFloat4Parameter('emissive', [1, 1, 1, 1]);
-            // this.matinstance.setFloat4Parameter('postLightingColor', [1, 1, 1, 1]);
-        };
 
         const material = this.engine.createMaterial(urls.filamat_url);
         this.matinstance = material.createInstance();
 
-        texturedTestParams();
+        this.texturedTestParams();
 
         // TODO: fetch larger assets
         // Filament.fetch(
@@ -81,6 +93,12 @@ class Material {
 
         //         this.scene.addEntity(this.suzanne)
         //     })
+    }
+
+    @a
+    updateMaterial(field: string, value: any) {
+        this[field] = value
+        this.texturedTestParams()
     }
 }
 

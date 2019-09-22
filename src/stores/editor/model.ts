@@ -1,4 +1,4 @@
-import { urls } from "./config/urls";
+import { urls } from "../config/urls";
 
 class Model {
     store: any;
@@ -8,6 +8,8 @@ class Model {
     matinstance: any;
     model: any;
     Material: any;
+
+
 
     constructor() {
         this.store = $$.events.call("store");

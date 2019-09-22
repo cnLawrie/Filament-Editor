@@ -1,10 +1,11 @@
 import { observable as o, action as a } from "mobx";
-import { Lightning } from "./lightning";
-import { Scene } from "./scene";
-import { Model } from "./model";
-import { Material } from "./material";
-import { Renderer } from "./renderer";
-import { Camera } from "./camera";
+import { Lightning } from "./editor/lightning";
+import { Scene } from "./editor/scene";
+import { Model } from "./editor/model";
+import { Material } from "./editor/material";
+import { Renderer } from "./editor/renderer";
+import { Camera } from "./editor/camera";
+import uiStore from "./ui";
 import { urls } from "./config/urls";
 
 interface CmsStore {
@@ -16,12 +17,14 @@ class EditorStore implements CmsStore {
     engine: any;
     scene: any;
 
-    Lightning: any;
-    Scene: any;
-    Model: any;
-    Material: any;
-    Camera: any;
-    Renderer: any;
+    Lightning: Lightning;
+    Scene: Scene;
+    Model: Model;
+    Material: Material;
+    Camera: Camera;
+    Renderer: Renderer;
+
+    ui: uiStore;
 
     constructor() {
         // 注册store
@@ -31,8 +34,10 @@ class EditorStore implements CmsStore {
         this.Scene = new Scene();
         this.Model = new Model();
         this.Material = new Material();
-        this.Renderer = new Renderer();
         this.Camera = new Camera();
+        this.Renderer = new Renderer();
+
+        this.ui = new uiStore();
     }
 
     register(canvas: any) {

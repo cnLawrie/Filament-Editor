@@ -1,4 +1,4 @@
-import { urls } from "./index";
+import { urls } from "../index";
 import Trackball from "gltumble";
 
 class Renderer {

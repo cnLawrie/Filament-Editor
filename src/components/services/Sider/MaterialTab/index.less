@@ -1,0 +1,22 @@
+@import "~less/common/index.less";
+
+.__MaterialTab__ {
+    .customCloseCollapseIcon {
+		width: 10px !important;
+		height: 10px !important;
+        transform: rotate(0deg);
+    }
+    .customOpenCollapseIcon {
+		width: 10px !important;
+		height: 10px !important;
+        transform: rotate(90deg);
+    }
+    :global {
+        .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+            padding: 8px 16px;
+        }
+    }
+    .component {
+        margin: 0 8px;
+    }
+}
