@@ -8,7 +8,7 @@
         "type": "git",
         "url": "http://git.realibox.com/realibox/realibox-cms2.git"
     },
-    "typings": "src/core/config/global.d.ts",
+    "typings": "src/core/config/typings/*",
     "scripts": {
         "clean": "rimraf ./dist/*",
         "start": "npm run clean && cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js  --color --progress --hot",
@@ -25,6 +25,10 @@
         "antd": "^3.20.3",
         "axios": "^0.19.0",
         "classnames": "^2.2.6",
+        "filament": "^1.3.2",
+        "fs-extra": "^8.1.0",
+        "gl-matrix": "^3.1.0",
+        "gltumble": "^1.0.1",
         "lodash": "^4.17.15",
         "mobx": "^5.11.0",
         "mobx-react-lite": "^1.4.1",
@@ -83,7 +87,6 @@
         "eslint-loader": "^2.2.1",
         "eslint-plugin-react": "^7.14.3",
         "eslint-plugin-react-hooks": "^1.6.1",
-        "fs": "^0.0.1-security",
         "html-webpack-harddisk-plugin": "^1.0.1",
         "html-webpack-plugin": "^3.2.0",
         "jest": "^24.9.0",

@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title><%= htmlWebpackPlugin.options.title %></title>
-        <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
-        <meta name="Keywords" content="<%= htmlWebpackPlugin.options.keywords %>" />
-		<link href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/realibox/iconfont.css?<%= htmlWebpackPlugin.options.version %>" rel="stylesheet" />
 
-        <% if(htmlWebpackPlugin.options.nodeEnv !== 'internal' && htmlWebpackPlugin.options.nodeEnv !== 'local'){ %>
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-        <script>
-            var loc = window.location.href+'';
-            if (loc.indexOf('http://')==0){
-                window.location.href = loc.replace('http://','https://');
-            }
-            
-        </script>
-        <% } %>
-    </head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
+    <meta name="Keywords" content="<%= htmlWebpackPlugin.options.keywords %>" />
+    <link
+        href="<%= htmlWebpackPlugin.options.publicPath %>assets/font/realibox/iconfont.css?<%= htmlWebpackPlugin.options.version %>"
+        rel="stylesheet" />
 
-    <body>
-		<div id="app"></div>
-		<script  src="<%= htmlWebpackPlugin.options.publicPath %>assets/libs/directoryUpload.js?<%= htmlWebpackPlugin.options.version %>"></script>
-		<script src="//res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
-    </body>
+    <% if(htmlWebpackPlugin.options.nodeEnv !== 'internal' && htmlWebpackPlugin.options.nodeEnv !== 'local'){ %>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script>
+        var loc = window.location.href + '';
+        if (loc.indexOf('http://') == 0) {
+            window.location.href = loc.replace('http://', 'https://');
+        }
+
+    </script>
+    <% } %>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script
+        src="<%= htmlWebpackPlugin.options.publicPath %>assets/libs/filament.js?<%= htmlWebpackPlugin.options.version %>"></script>
+    <script
+        src="<%= htmlWebpackPlugin.options.publicPath %>assets/libs/directoryUpload.js?<%= htmlWebpackPlugin.options.version %>"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+</body>
+
 </html>

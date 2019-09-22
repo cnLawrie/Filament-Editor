@@ -28,5 +28,5 @@
     },
     "include": ["src"],
     "exclude": ["node_modules"],
-    "typings": "src/core/config/global.d.ts"
+    "typings": "src/core/typings/*"
 }

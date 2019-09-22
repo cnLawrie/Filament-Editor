@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { useEditorStore } from "hooks/useStores";
 
-export default class Index extends React.Component {
+const Index = () => {
+    const editorStore = useEditorStore();
+    const canvasRef = useRef(null);
 
+    useEffect(() => {
+        editorStore.register(canvasRef.current);
+    }, []);
 
-    public componentDidMount() {
+    return <canvas id='canvas' ref={canvasRef} />;
+};
 
-    }
-
-    public render() {
-        return (
-            <div>
-                <canvas id="canvas" />
-            </div>
-        )
-    }
-}
+export default Index;

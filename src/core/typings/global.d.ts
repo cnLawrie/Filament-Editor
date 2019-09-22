@@ -22,3 +22,5 @@ declare module "stores";
 declare module "stores/*";
 
 declare const $$: any;
+
+declare const Filament: any;
