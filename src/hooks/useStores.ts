@@ -27,3 +27,12 @@ export const useMaterialStore = () => {
     }
     return editorStore.Material;
 };
+
+export const useLightningStore = () => {
+    const editorStore: any = React.useContext(StoreContext);
+
+    if (!editorStore) {
+        throw new Error("You have forgot to use StoreProvider, shame on you.");
+    }
+    return editorStore.Lightning;
+};

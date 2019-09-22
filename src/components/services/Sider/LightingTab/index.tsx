@@ -1,360 +1,328 @@
-import React from "react";
-import { Row, Col, Collapse, Tooltip, Modal, Input, Checkbox } from "antd";
+import React, { useRef } from "react";
+import { Row, Col, Collapse, Tooltip, Modal, Input, Divider } from "antd";
 import styles from "./index.less";
 import { observer } from "mobx-react-lite";
-import { useEditorStore, useMaterialStore } from "hooks/useStores";
+import { useEditorStore, useLightningStore } from "hooks/useStores";
 import ReSlider from "widgets/ReSlider";
-import { tabType } from "core/config/enum";
+import { tabType, LightType } from "core/config/enum";
 import ReColorPicker from "widgets/ReColorPicker";
+import ReInput from "widgets/ReInput";
+import ReSelect from "widgets/ReSelect";
+import Button from "antd/es/button";
+import ReIcon from "widgets/ReIcon";
 
-const Panel = Collapse.Panel;
+interface LightningType {
+    siderRef: any;
+}
 
-const MaterialTab = observer(() => {
+const LightningTab = observer((props: LightningType) => {
     const editorStore = useEditorStore();
-    const materialStore = useMaterialStore();
+    const lightningStore = useLightningStore();
     const LN = $$.LN["SIDER"];
-    console.log(materialStore.metallic);
 
     const renderSlider = (options: any) => {
         return (
             <ReSlider
-                toFixed={2}
+                toFixed={options.toFixed || 2}
                 sliderNameSpan={6}
                 sliderMin={options.sliderMin}
                 sliderMax={options.sliderMax}
                 sliderName={options.sliderName}
-                value={materialStore[options.property]}
+                value={lightningStore[options.property]}
                 onChange={(value: any) =>
-                    materialStore.updateMaterial(options.property, value)
+                    lightningStore.updateLightning(options.property, value)
                 }
                 onComplete={(value: any) => {
                     console.log(value);
-
-                    materialStore.updateMaterial(options.property, value);
+                    lightningStore.updateLightning(options.property, value);
                 }}
             />
         );
     };
+
+    const lightType = (type: LightType) => {
+        switch (type) {
+            case LightType.SUN:
+                return "太阳光";
+            case LightType.DIRECTIONAL:
+                return "平行光";
+            case LightType.POINT:
+                return "点光";
+            case LightType.FOCUSED_SPOT:
+                return "解耦聚光灯";
+            case LightType.SPOT:
+                return "聚光灯";
+        }
+    };
+
+    console.log(lightningStore.lightnings);
+
     return (
-        <Collapse className={styles.__MaterialTab__}>
-            <Panel header='颜色(baseColor)' key='baseColor'>
-                <div>对于电介质而言，是它的漫反射颜色</div>
-                <div>对于金属对象而言，是它的镜面颜色</div>
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.baseColor[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.baseColor[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.baseColor[2].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.baseColor.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) =>
-                                materialStore.updateMaterial(
-                                    "baseColor",
-                                    color.map((v: number, i: number) =>
-                                        i === 3 ? v : v / 255,
-                                    ),
-                                )
-                            }
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-            <Panel header='金属性(metallic)' key='metallic'>
-                <div>电介质(0), 导体(1)</div>
-                <div>通常设为0或1</div>
-                {renderSlider({
-                    sliderName: "金属性",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "metallic",
+        <div className={styles.__LightningTab__}>
+            <Row className={styles.lightningsRow}>
+                {lightningStore.lightnings.map((light: any, index: number) => {
+                    return (
+                        <Col
+                            key={index}
+                            offset={1}
+                            className={styles.lightning}
+                        >
+                            <span>{index}.</span>
+                            <span className={styles.lightType}>
+                                {lightType(light.type)}
+                            </span>
+                            <Col offset={2}>
+                                方向: [{light.direction[0]},{light.direction[1]}
+                                ,{light.direction[2]}]
+                            </Col>
+                            <Col offset={2}>光强: {light.intensity}</Col>
+                            <ReIcon
+                                className={styles.icon}
+                                icon='rb-cha'
+                                onClick={() => {
+                                    lightningStore.deleteCustomLight(index);
+                                }}
+                            ></ReIcon>
+                        </Col>
+                    );
                 })}
-            </Panel>
-            <Panel
-                header='粗糙度(roughness)或光泽度(glossiness)'
-                key='roughness'
-            >
-                <div>光滑(0), 粗糙(1)</div>
+            </Row>
+            <Row className={"customRow"}>
+                <Col offset={1} span={8}>
+                    光的种类(type)
+                </Col>
+                <Col offset={2} span={12}>
+                    <ReSelect
+                        value={lightningStore.type}
+                        options={[
+                            {
+                                value: LightType.SUN,
+                                label: "太阳光",
+                            },
+                            {
+                                value: LightType.DIRECTIONAL,
+                                label: "平行光",
+                            },
+                            {
+                                value: LightType.POINT,
+                                label: "点光",
+                            },
+                            {
+                                value: LightType.FOCUSED_SPOT,
+                                label: "解耦聚光灯",
+                            },
+                            {
+                                value: LightType.SPOT,
+                                label: "聚光灯",
+                            },
+                        ]}
+                        onChange={(value: number) =>
+                            lightningStore.updateLightning("type", value)
+                        }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col offset={1}>颜色(color)</Col>
+                <Col offset={1}>sRGB色彩空间。默认值为白色[1, 1, 1]。</Col>
+            </Row>
+            <Row className={"customRow"}>
+                <Col offset={1} span={16}>
+                    <span className={styles.component}>
+                        R: {lightningStore.color[0].toFixed(2)}
+                    </span>
+                    <span className={styles.component}>
+                        G: {lightningStore.color[1].toFixed(2)}
+                    </span>
+                    <span className={styles.component}>
+                        B: {lightningStore.color[2].toFixed(2)}
+                    </span>
+                </Col>
+                <Col span={4}>
+                    <ReColorPicker
+                        color={lightningStore.color.map(
+                            (v: number, i: number) => (i === 3 ? v : v * 255),
+                        )}
+                        onChange={(color: number[], complete: boolean) =>
+                            lightningStore.updateLightning(
+                                "color",
+                                color.map((v: number, i: number) =>
+                                    i === 3 ? v : v / 255,
+                                ),
+                            )
+                        }
+                        onCancel={() => {
+                            console.log("cancel");
+                        }}
+                    />
+                </Col>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>方向(direction)</Col>
+            </Row>
+            <Row className={"customRow"}>
+                <Col offset={1} span={6}>
+                    <ReInput
+                        className={styles.input}
+                        type='number'
+                        value={lightningStore.direction[0]}
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.direction;
+                            arr[0] = value;
+                            lightningStore.updateLightning("direction", arr);
+                        }}
+                    />
+                </Col>
+                <Col span={6}>
+                    <ReInput
+                        className={styles.input}
+                        value={lightningStore.direction[1]}
+                        type='number'
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.direction;
+                            arr[1] = value;
+                            lightningStore.updateLightning("direction", arr);
+                        }}
+                    />
+                </Col>
+                <Col span={6}>
+                    <ReInput
+                        className={styles.input}
+                        value={lightningStore.direction[2]}
+                        type='number'
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.direction;
+                            arr[2] = value;
+                            lightningStore.updateLightning("direction", arr);
+                        }}
+                    />
+                </Col>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>衰减距离(falloff)</Col>
+                <Col offset={1}>
+                    设置点光源和聚光灯的衰减距离,单位是米，默认1米。
+                </Col>
+                <Col offset={1}>衰减距离定义了这个光源的影响范围的大小。</Col>
+            </Row>
+            <Row className={"customRow"}>
                 {renderSlider({
-                    sliderName: "粗糙度",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "roughness",
+                    sliderName: "衰减距离",
+                    sliderMin: 1,
+                    sliderMax: 100,
+                    property: "falloff",
                 })}
-            </Panel>
-            <Panel header='电介质反射强度（reflectance)' key='reflectance'>
-                <div>默认0.5, 即4%反射率</div>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>光强(intensity)</Col>
+                <Col offset={1}>对于平行光,单位是勒克司度(lux)。</Col>
+                <Col offset={1}>对于点光和聚光灯,单位是流明(lumen)</Col>
+            </Row>
+            <Row className={"customRow"}>
                 {renderSlider({
-                    sliderName: "反射强度",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "reflectance",
+                    sliderName: "光强",
+                    sliderMin: 10,
+                    sliderMax: 100000,
+                    property: "intensity",
+                    toFixed: 0,
                 })}
-            </Panel>
-            <Panel header='透明涂层(clear coat)' key='clearCoat'>
-                <div>通常设为0或1</div>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>位置(position)</Col>
+                <Col offset={1}>初始世界坐标</Col>
+            </Row>
+            <Row className={"customRow"}>
+                <Col offset={1} span={6}>
+                    <ReInput
+                        className={styles.input}
+                        type='number'
+                        value={lightningStore.position[0]}
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.position;
+                            arr[0] = value;
+                            lightningStore.updateLightning("position", arr);
+                        }}
+                    />
+                </Col>
+                <Col span={6}>
+                    <ReInput
+                        className={styles.input}
+                        type='number'
+                        value={lightningStore.position[1]}
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.position;
+                            arr[1] = value;
+                            lightningStore.updateLightning("position", arr);
+                        }}
+                    />
+                </Col>
+                <Col span={6}>
+                    <ReInput
+                        className={styles.input}
+                        type='number'
+                        value={lightningStore.position[2]}
+                        onComplete={(value: number) => {
+                            const arr = lightningStore.position;
+                            arr[2] = value;
+                            lightningStore.updateLightning("position", arr);
+                        }}
+                    />
+                </Col>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>太阳角半径(sunAngularRadius)</Col>
+                <Col offset={1}>单位度，范围0.25-20</Col>
+            </Row>
+            <Row className={"customRow"}>
                 {renderSlider({
-                    sliderName: "透明涂层",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "clearCoat",
+                    sliderName: "太阳角半径",
+                    sliderMin: 0.25,
+                    sliderMax: 20,
+                    property: "sunAngularRadius",
                 })}
-            </Panel>
-            <Panel
-                header='透明涂层粗糙度(clear coat roughness)'
-                key='clearCoatRoughness'
-            >
-                <div>光滑(0), 粗糙(1)</div>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>日晕衰减(sunHaloFalloff)</Col>
+            </Row>
+            <Row className={"customRow"}>
                 {renderSlider({
-                    sliderName: "透明涂层粗糙度",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "clearCoatRoughness",
+                    sliderName: "日晕衰减",
+                    sliderMin: 1,
+                    sliderMax: 1000,
+                    property: "sunHaloFalloff",
                 })}
-            </Panel>
-            <Panel header='各向异性(anisotropy)' key='anisotropy'>
+            </Row>
+            <Divider />
+            <Row>
+                <Col offset={1}>日晕尺寸(sunHaloSize)</Col>
+            </Row>
+            <Row className={"customRow"}>
                 {renderSlider({
-                    sliderName: "各向异性",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "anisotropy",
+                    sliderName: "日晕尺寸",
+                    sliderMin: 1,
+                    sliderMax: 100,
+                    property: "sunHaloSize",
                 })}
-            </Panel>
-            <Panel
-                header='各向异性方向(anisotropyDirection)'
-                key='anisotropyDirection'
-            >
-                <div>定义给定点的表面方向</div>
-                <div>提供一组线性RGB值[0..1]，作为切线空间的一个方向向量</div>
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.anisotropyDirection[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.anisotropyDirection[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.anisotropyDirection[2].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.anisotropyDirection.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) =>
-                                materialStore.updateMaterial(
-                                    "anisotropyDirection",
-                                    color.map((v: number, i: number) =>
-                                        i === 3 ? v : v / 255,
-                                    ),
-                                )
-                            }
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-            <Panel header='AO(ambientOcclusion)' key='ambientOcclusion'>
-                <div>0(完全遮蔽),1(完全照射）</div>
-                <div>
-                    这个属性只会影响IBL，其他如平行光、点光源、聚光灯等无效
-                </div>
-                {renderSlider({
-                    sliderName: "AO",
-                    sliderMin: 0,
-                    sliderMax: 1,
-                    property: "ambientOcclusion",
-                })}
-            </Panel>
-            <Panel header='法线(normal)' key='normal'>
-                <div>定义给定点的法线，通常该属性取自于法线贴图</div>
-                <div>提供一组线性RGB值[0..1]，作为切线空间的一个方向向量</div>
-                <div>只影响基础层，不影响透明图层</div>
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.normal[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.normal[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.normal[2].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.normal.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) =>
-                                materialStore.updateMaterial(
-                                    "normal",
-                                    color.map((v: number, i: number) =>
-                                        i === 3 ? v : v / 255,
-                                    ),
-                                )
-                            }
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-            <Panel
-                header='透明图层法线(clear coat normal)'
-                key='clearCoatNormal'
-            >
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.clearCoatNormal[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.clearCoatNormal[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.clearCoatNormal[2].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.clearCoatNormal.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) =>
-                                materialStore.updateMaterial(
-                                    "clearCoatNormal",
-                                    color.map((v: number, i: number) =>
-                                        i === 3 ? v : v / 255,
-                                    ),
-                                )
-                            }
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-            <Panel header='自发光(emissive)' key='emissive'>
-                <div>额外的漫反射去模拟自发光表面(如：霓虹灯)。</div>
-                <div>rgb=[0..1], a=[-n..n]</div>
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.emissive[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.emissive[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.emissive[2].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            A: {materialStore.emissive[3].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.emissive.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) => {
-                                if (color.length > 4) {
-                                    return;
-                                }
-
-                                materialStore.updateMaterial(
-                                    "emissive",
-                                    color.length > 3
-                                        ? color
-                                        : color
-                                            .map((v: number, i: number) =>
-                                                i === 3 ? v : v / 255,
-                                            )
-                                            .concat([1]),
-                                );
-                            }}
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-            <Panel header='postLightingColor' key='postLightingColor'>
-                <div>postLightingColor用于在光照计算后修改表面颜色</div>
-                <div>当alpha设为0时，该参数与emissive效果等同</div>
-                <Row className={"customRow"}>
-                    <Col offset={1} span={16}>
-                        <span className={styles.component}>
-                            R: {materialStore.postLightingColor[0].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            G: {materialStore.postLightingColor[1].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            B: {materialStore.postLightingColor[2].toFixed(2)}
-                        </span>
-                        <span className={styles.component}>
-                            A: {materialStore.postLightingColor[3].toFixed(2)}
-                        </span>
-                    </Col>
-                    <Col span={4}>
-                        <ReColorPicker
-                            color={materialStore.postLightingColor.map(
-                                (v: number, i: number) =>
-                                    i === 3 ? v : v * 255,
-                            )}
-                            onChange={(color: number[], complete: boolean) => {
-                                if (color.length > 4) {
-                                    return;
-                                }
-                                console.log(color);
-
-                                materialStore.updateMaterial(
-                                    "postLightingColor",
-                                    color.length > 3
-                                        ? color
-                                        : color
-                                            .map((v: number, i: number) =>
-                                                i === 3 ? v : v / 255,
-                                            )
-                                            .concat([1]),
-                                );
-                            }}
-                            onCancel={() => {
-                                console.log("cancel");
-                            }}
-                        />
-                    </Col>
-                </Row>
-            </Panel>
-        </Collapse>
+            </Row>
+            <Row className={styles.buttonRow}>
+                <Button
+                    className={styles.button}
+                    onClick={() => {
+                        lightningStore.addCustomLight();
+                        props.siderRef.current.scrollTo(0, 0);
+                    }}
+                >
+                    添加光照
+                </Button>
+            </Row>
+        </div>
     );
 });
 
-export default MaterialTab;
+export default LightningTab;

@@ -8,19 +8,19 @@ class Material {
     skybox: any;
     matinstance: any;
 
-    @o baseColor = [1, 1, 1]
-    @o metallic = 0
-    @o roughness = 0
-    @o reflectance = 0.5
-    @o clearCoat = 0
-    @o clearCoatRoughness = 0
-    @o anisotropy = 0
-    @o anisotropyDirection = [0, 0, 0]
-    @o ambientOcclusion = 0
-    @o normal = [0, 0, 0]
-    @o clearCoatNormal = [0, 0, 0]
-    @o emissive = [0, 0, 0, 0]
-    @o postLightingColor = [0, 0, 0, 0]
+    @o baseColor = [1, 1, 1];
+    @o metallic = 0;
+    @o roughness = 1;
+    @o reflectance = 0.5;
+    @o clearCoat = 0;
+    @o clearCoatRoughness = 0;
+    @o anisotropy = 0;
+    @o anisotropyDirection = [0, 0, 0];
+    @o ambientOcclusion = 0;
+    @o normal = [0, 0, 0];
+    @o clearCoatNormal = [0, 0, 0];
+    @o emissive = [0, 0, 0, 0];
+    @o postLightingColor = [0, 0, 0, 0];
 
     constructor() {
         this.store = $$.events.call("store");
@@ -30,21 +30,36 @@ class Material {
         this.matinstance.setColor3Parameter(
             "baseColor",
             Filament.RgbType.LINEAR,
-            toJS(this.baseColor)
+            toJS(this.baseColor),
         );
         this.matinstance.setFloatParameter("metallic", this.metallic);
         this.matinstance.setFloatParameter("roughness", this.roughness);
         this.matinstance.setFloatParameter("reflectance", this.reflectance);
         this.matinstance.setFloatParameter("clearCoat", this.clearCoat);
-        this.matinstance.setFloatParameter("clearCoatRoughness", this.clearCoatRoughness);
+        this.matinstance.setFloatParameter(
+            "clearCoatRoughness",
+            this.clearCoatRoughness,
+        );
         this.matinstance.setFloatParameter("anisotropy", this.anisotropy);
-        this.matinstance.setFloat3Parameter("anisotropyDirection", this.anisotropyDirection);
-        this.matinstance.setFloatParameter("ambientOcclusion", this.ambientOcclusion);
-        this.matinstance.setFloat3Parameter('normal', this.normal);
-        this.matinstance.setFloat3Parameter('clearCoatNormal', this.clearCoatNormal);
-        this.matinstance.setFloat4Parameter('emissive', this.emissive);
-        this.matinstance.setFloat4Parameter('postLightingColor', this.postLightingColor);
-    }
+        this.matinstance.setFloat3Parameter(
+            "anisotropyDirection",
+            this.anisotropyDirection,
+        );
+        this.matinstance.setFloatParameter(
+            "ambientOcclusion",
+            this.ambientOcclusion,
+        );
+        this.matinstance.setFloat3Parameter("normal", this.normal);
+        this.matinstance.setFloat3Parameter(
+            "clearCoatNormal",
+            this.clearCoatNormal,
+        );
+        this.matinstance.setFloat4Parameter("emissive", this.emissive);
+        this.matinstance.setFloat4Parameter(
+            "postLightingColor",
+            this.postLightingColor,
+        );
+    };
 
     initialize() {
         this.scene = this.store.scene;
@@ -79,7 +94,6 @@ class Material {
             this.matinstance.setTextureParameter("ao", ao, sampler);
         };
 
-
         const material = this.engine.createMaterial(urls.filamat_url);
         this.matinstance = material.createInstance();
 
@@ -97,8 +111,8 @@ class Material {
 
     @a
     updateMaterial(field: string, value: any) {
-        this[field] = value
-        this.texturedTestParams()
+        this[field] = value;
+        this.texturedTestParams();
     }
 }
 

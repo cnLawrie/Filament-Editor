@@ -1,22 +1,45 @@
 @import "~less/common/index.less";
 
-.__MaterialTab__ {
-    .customCloseCollapseIcon {
-		width: 10px !important;
-		height: 10px !important;
-        transform: rotate(0deg);
-    }
-    .customOpenCollapseIcon {
-		width: 10px !important;
-		height: 10px !important;
-        transform: rotate(90deg);
-    }
+.__LightningTab__ {
+
     :global {
         .ant-collapse > .ant-collapse-item > .ant-collapse-header {
             padding: 8px 16px;
         }
+        .ant-select-selection {
+            width: 100px;
+        }
+    }
+    .input {
+        width: 60px;
+
     }
     .component {
         margin: 0 8px;
+    }
+    .buttonRow {
+        padding: 10px;
+    }
+    .button {
+        width: 100%;
+    }
+    .lightningsRow {
+        padding: 0 14px;
+        .lightning {
+            position: relative;
+            margin: 8px 0;
+            padding: 0 8px;
+            background: #FFB002;
+            border-radius: 4px;
+            .lightType {
+                margin-left: 10px;
+            }
+            .icon {
+                position: absolute;
+                top: 50%;
+                right: 5px;
+                transform: translateY(-50%);
+            }
+        }
     }
 }

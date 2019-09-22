@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./index.less";
 import { useUIStore } from "hooks/useStores";
 import { Tabs, Tooltip } from "antd";
@@ -12,9 +12,10 @@ const TabPane = Tabs.TabPane;
 const Sider = observer(() => {
     const uiStore = useUIStore();
     const LN = $$.LN["SIDER"];
+    const siderRef = useRef(null);
 
     return (
-        <div className={styles.__Sider__}>
+        <div className={styles.__Sider__} ref={siderRef}>
             <Tabs
                 onTabClick={(key: string) => uiStore.onTabClick(key)}
                 activeKey={uiStore.tab}
@@ -47,7 +48,7 @@ const Sider = observer(() => {
                     }
                     key={tabType.lightning + ""}
                 >
-                    <LightningTab />
+                    <LightningTab siderRef={siderRef} />
                 </TabPane>
             </Tabs>
         </div>
