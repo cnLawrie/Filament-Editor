@@ -12,13 +12,13 @@ export default class view extends React.Component<iconProps, {}> {
         const { className, icon } = this.props;
         return (
             <svg
-                aria-hidden="true"
+                aria-hidden='true'
                 className={classnames({
                     [styles.reIcon]: true,
-                    [className]: !!className
+                    [className]: !!className,
                 })}
                 dangerouslySetInnerHTML={{
-                    __html: `<use xlink:href=#${icon}></use>`
+                    __html: `<use xlink:href=#${icon}></use>`,
                 }}
             />
         );

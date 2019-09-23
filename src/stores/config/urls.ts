@@ -20,6 +20,9 @@ const filamat_url = testParams
 const filamesh_url = testParams
     ? `${prefix}/suzanneTestParams.filamesh`
     : `${prefix}/suzanne.filamesh`;
+
+const redball_filamat_url = "/assets/redball/plastic.filamat";
+
 const urls = {
     ibl_url,
     sky_small_url,
@@ -31,6 +34,7 @@ const urls = {
     roughness_url,
     filamat_url,
     filamesh_url,
+    redball_filamat_url,
 };
 
 export { urls };

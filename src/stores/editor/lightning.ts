@@ -17,21 +17,6 @@ class Lightning {
     @o sunHaloFalloff: number = 80;
     @o sunHaloSize: number = 10;
 
-    @c
-    get currentLight() {
-        return {
-            type: this.type,
-            color: this.color,
-            direction: this.direction,
-            falloff: this.falloff,
-            intensity: this.intensity,
-            position: this.position,
-            sunAngularRadius: this.sunAngularRadius,
-            sunHaloFalloff: this.sunHaloFalloff,
-            sunHaloSize: this.sunHaloSize,
-        };
-    }
-
     constructor() {
         this.store = $$.events.call("store");
     }
@@ -44,7 +29,6 @@ class Lightning {
     addCustomLight = () => {
         const customlight = Filament.EntityManager.get().create();
         this.scene.addEntity(customlight);
-        console.log(this.currentLight);
 
         Filament.LightManager.Builder(this.type)
             .color(this.color)
@@ -59,7 +43,7 @@ class Lightning {
             // .castShadows()
             .build(this.engine, customlight);
         this.lightnings.push(
-            Object.assign({}, this.currentLight, { entity: customlight }),
+            Object.assign({}, this.currentLight(), { entity: customlight }),
         );
     };
 
@@ -99,6 +83,20 @@ class Lightning {
     @a
     updateLightning(field: string, value: any) {
         this[field] = value;
+    }
+
+    currentLight() {
+        return {
+            type: this.type,
+            color: this.color,
+            direction: this.direction,
+            falloff: this.falloff,
+            intensity: this.intensity,
+            position: this.position,
+            sunAngularRadius: this.sunAngularRadius,
+            sunHaloFalloff: this.sunHaloFalloff,
+            sunHaloSize: this.sunHaloSize,
+        };
     }
 }
 

@@ -61,38 +61,30 @@ class Material {
         );
     };
 
+    textured = () => {
+        const albedo = this.engine.createTextureFromKtx(urls.albedo_url, {
+            srgb: true,
+        });
+        const roughness = this.engine.createTextureFromKtx(urls.roughness_url);
+        const metallic = this.engine.createTextureFromKtx(urls.metallic_url);
+        const normal = this.engine.createTextureFromKtx(urls.normal_url);
+        const ao = this.engine.createTextureFromKtx(urls.ao_url);
+        const sampler = new Filament.TextureSampler(
+            Filament.MinFilter.LINEAR_MIPMAP_LINEAR,
+            Filament.MagFilter.LINEAR,
+            Filament.WrapMode.CLAMP_TO_EDGE,
+        );
+
+        this.matinstance.setTextureParameter("albedo", albedo, sampler);
+        this.matinstance.setTextureParameter("roughness", roughness, sampler);
+        this.matinstance.setTextureParameter("metallic", metallic, sampler);
+        this.matinstance.setTextureParameter("normal", normal, sampler);
+        this.matinstance.setTextureParameter("ao", ao, sampler);
+    };
+
     initialize() {
         this.scene = this.store.scene;
         this.engine = this.store.engine;
-
-        const textured = () => {
-            const albedo = this.engine.createTextureFromKtx(urls.albedo_url, {
-                srgb: true,
-            });
-            const roughness = this.engine.createTextureFromKtx(
-                urls.roughness_url,
-            );
-            const metallic = this.engine.createTextureFromKtx(
-                urls.metallic_url,
-            );
-            const normal = this.engine.createTextureFromKtx(urls.normal_url);
-            const ao = this.engine.createTextureFromKtx(urls.ao_url);
-            const sampler = new Filament.TextureSampler(
-                Filament.MinFilter.LINEAR_MIPMAP_LINEAR,
-                Filament.MagFilter.LINEAR,
-                Filament.WrapMode.CLAMP_TO_EDGE,
-            );
-
-            this.matinstance.setTextureParameter("albedo", albedo, sampler);
-            this.matinstance.setTextureParameter(
-                "roughness",
-                roughness,
-                sampler,
-            );
-            this.matinstance.setTextureParameter("metallic", metallic, sampler);
-            this.matinstance.setTextureParameter("normal", normal, sampler);
-            this.matinstance.setTextureParameter("ao", ao, sampler);
-        };
 
         const material = this.engine.createMaterial(urls.filamat_url);
         this.matinstance = material.createInstance();

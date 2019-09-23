@@ -1,15 +1,21 @@
 import axios from "../axios";
 import utils from "../utils";
 
-
 export default class UploadProcessor {
     //文件，读取进度回调函数
-    public uploadPolicy(url: string, name: string, file: any, params: any, key: string, uploadProgress: any) {
+    public uploadPolicy(
+        url: string,
+        name: string,
+        file: any,
+        params: any,
+        key: string,
+        uploadProgress: any,
+    ) {
         return new Promise((resolve, reject) => {
             const cancelToken = (axios as any).rawAxios.CancelToken.source();
             axios
                 .get(url, {
-                    params: params || {}
+                    params: params || {},
                 })
                 .then(res => {
                     const formData = new FormData();
@@ -19,7 +25,7 @@ export default class UploadProcessor {
                         dir,
                         host,
                         policy,
-                        signature
+                        signature,
                     } = (res as any).info;
 
                     formData.append("name", name);
@@ -37,7 +43,7 @@ export default class UploadProcessor {
                                     typeof uploadProgress === "function" &&
                                     uploadProgress(e, cancelToken);
                             },
-                            cancelToken: cancelToken.token
+                            cancelToken: cancelToken.token,
                         })
                         .then(res => {
                             resolve(res);

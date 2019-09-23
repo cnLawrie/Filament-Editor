@@ -1,7 +1,6 @@
 const _listener: any = {};
 const _hooks: any = {};
 
-
 interface Listener {
     scope: any;
     callback: Function;
@@ -17,8 +16,8 @@ interface _Hooks {
 }
 
 export default class Events {
-    public _listener: _Listener
-    public _hooks: _Hooks
+    public _listener: _Listener;
+    public _hooks: _Hooks;
 
     public attach(target: any) {
         const ev = this;
@@ -39,15 +38,20 @@ export default class Events {
             listener[type] = [
                 {
                     scope: scope,
-                    callback: fn
-                }
+                    callback: fn,
+                },
             ];
         } else {
             // 对应scope下只能有一次监听fn
-            if (listener[type].filter((listen: Listener) => listen.scope === scope && listen.callback === fn).length === 0) {
+            if (
+                listener[type].filter(
+                    (listen: Listener) =>
+                        listen.scope === scope && listen.callback === fn,
+                ).length === 0
+            ) {
                 listener[type].push({
                     scope: scope,
-                    callback: fn
+                    callback: fn,
                 });
             }
         }
@@ -63,7 +67,11 @@ export default class Events {
                     events.push(arguments[index]);
                 }
             }
-            for (let length = listener[type].length, start = 0; start < length; start += 1) {
+            for (
+                let length = listener[type].length, start = 0;
+                start < length;
+                start += 1
+            ) {
                 const listen = listener[type][start];
                 listen.callback.apply(listen.scope, events);
             }
@@ -77,7 +85,10 @@ export default class Events {
         if (listeners instanceof Array) {
             if (typeof key === "function") {
                 for (let i = 0, length = listeners.length; i < length; i += 1) {
-                    if (listeners[i].callback === key && listeners[i].scope === this) {
+                    if (
+                        listeners[i].callback === key &&
+                        listeners[i].scope === this
+                    ) {
                         listeners.splice(i, 1);
                         break;
                     }
@@ -113,7 +124,12 @@ export default class Events {
             try {
                 return hooks[name].apply(null, args);
             } catch (ex) {
-                console.info("%c%s %c(method error)", "color: #06f", name, "color: #f00");
+                console.info(
+                    "%c%s %c(method error)",
+                    "color: #06f",
+                    name,
+                    "color: #f00",
+                );
                 console.log(ex.stack);
             }
         }
