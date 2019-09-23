@@ -21,7 +21,7 @@ const filamesh_url = testParams
     ? `${prefix}/suzanneTestParams.filamesh`
     : `${prefix}/suzanne.filamesh`;
 
-const redball_filamat_url = "/assets/redball/plastic.filamat";
+const redball_filamat_url = "/assets/models/redball/plastic.filamat";
 
 const urls = {
     ibl_url,

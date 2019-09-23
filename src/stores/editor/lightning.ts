@@ -1,4 +1,4 @@
-import { observable as o, action as a, computed as c } from "mobx";
+import { observable as o, action as a, computed as c, toJS } from "mobx";
 
 class Lightning {
     store: any;
@@ -87,15 +87,15 @@ class Lightning {
 
     currentLight() {
         return {
-            type: this.type,
-            color: this.color,
-            direction: this.direction,
-            falloff: this.falloff,
-            intensity: this.intensity,
-            position: this.position,
-            sunAngularRadius: this.sunAngularRadius,
-            sunHaloFalloff: this.sunHaloFalloff,
-            sunHaloSize: this.sunHaloSize,
+            type: toJS(this.type),
+            color: toJS(this.color),
+            direction: toJS(this.direction),
+            falloff: toJS(this.falloff),
+            intensity: toJS(this.intensity),
+            position: toJS(this.position),
+            sunAngularRadius: toJS(this.sunAngularRadius),
+            sunHaloFalloff: toJS(this.sunHaloFalloff),
+            sunHaloSize: toJS(this.sunHaloSize),
         };
     }
 }

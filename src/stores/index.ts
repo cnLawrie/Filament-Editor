@@ -47,6 +47,7 @@ class EditorStore implements CmsStore {
                 urls.filamesh_url,
                 urls.sky_small_url,
                 urls.ibl_url,
+                urls.redball_filamat_url,
             ],
             () => {
                 window.app = this.initialize(canvas);

@@ -2,7 +2,7 @@ module.exports = () => {
     return {
         options: {
             // 项目端口
-            port: 9100,
+            port: 8200,
             // 项目地址
             host: "dev.filament.com",
             // HTML模板
