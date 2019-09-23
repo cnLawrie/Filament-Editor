@@ -1,5 +1,6 @@
 import { urls } from "../config/urls";
 import { observable as o, action as a, toJS } from "mobx";
+import { noMaps } from "../config/urls";
 
 class Material {
     store: any;
@@ -89,16 +90,24 @@ class Material {
         const material = this.engine.createMaterial(urls.filamat_url);
         this.matinstance = material.createInstance();
 
-        this.texturedTestParams();
-
-        // TODO: fetch larger assets
-        // Filament.fetch(
-        //     [urls.sky_large_url, urls.albedo_url, urls.roughness_url, urls.metallic_url, urls.normal_url, urls.ao_url],
-        //     () => {
-        //         textured()
-
-        //         this.scene.addEntity(this.suzanne)
-        //     })
+        if (noMaps) {
+            this.texturedTestParams();
+        } else {
+            // TODO: fetch larger assets
+            Filament.fetch(
+                [
+                    urls.sky_large_url,
+                    urls.albedo_url,
+                    urls.roughness_url,
+                    urls.metallic_url,
+                    urls.normal_url,
+                    urls.ao_url,
+                ],
+                () => {
+                    this.textured();
+                },
+            );
+        }
     }
 
     @a

@@ -6,6 +6,7 @@ import ReIcon from "widgets/ReIcon";
 import { tabType } from "core/config/enum";
 import MaterialTab from "./MaterialTab/index";
 import LightningTab from "./LightingTab/index";
+import SettingTab from "./SettingTab/index";
 import { observer } from "mobx-react-lite";
 const TabPane = Tabs.TabPane;
 
@@ -50,6 +51,21 @@ const Sider = observer(() => {
                 >
                     <LightningTab siderRef={siderRef} />
                 </TabPane>
+                {/* <TabPane
+                    tab={
+                        <Tooltip placement='top' title={LN.lightning}>
+                            <span>
+                                <ReIcon
+                                    className={styles.icon}
+                                    icon='rb-shezhi'
+                                />
+                            </span>
+                        </Tooltip>
+                    }
+                    key={tabType.setting + ""}
+                >
+                    <SettingTab />
+                </TabPane> */}
             </Tabs>
         </div>
     );

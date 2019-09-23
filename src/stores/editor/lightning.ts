@@ -29,6 +29,7 @@ class Lightning {
     addCustomLight = () => {
         const customlight = Filament.EntityManager.get().create();
         this.scene.addEntity(customlight);
+        console.log(this.type);
 
         Filament.LightManager.Builder(this.type)
             .color(this.color)
@@ -68,7 +69,7 @@ class Lightning {
             // .position()
             .build(this.engine, sunlight);
 
-        this.engine.destroyEntity(sunlight);
+        // this.engine.destroyEntity(sunlight);
     };
 
     addBackLight = () => {

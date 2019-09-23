@@ -68,8 +68,6 @@ class EditorStore implements CmsStore {
         this.Camera.initialize();
         this.Renderer.initialize();
 
-        this.Lightning.addSunLight();
-
         // this.resize();
         window.requestAnimationFrame(this.Renderer.render);
     }

@@ -32,7 +32,7 @@ class Renderer {
         this.view = this.engine.createView();
         this.view.setCamera(this.Camera.camera);
         this.view.setScene(this.scene);
-        this.view.setClearColor([0.1, 0.2, 0.3, 1.0]);
+        this.view.setClearColor([0, 0, 0, 1.0]);
 
         this.resize();
         window.addEventListener("resize", this.resize);

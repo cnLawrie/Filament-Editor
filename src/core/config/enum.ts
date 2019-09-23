@@ -1,6 +1,7 @@
 export enum tabType {
     material,
     lightning,
+    setting,
 }
 
 export enum LightType {

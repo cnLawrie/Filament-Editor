@@ -1,4 +1,4 @@
-const testParams = true;
+const noMaps = true;
 
 const ibl_suffix = Filament.getSupportedFormatSuffix("etc s3tc");
 const albedo_suffix = Filament.getSupportedFormatSuffix("astc s3tc");
@@ -14,12 +14,10 @@ const ao_url = `${prefix}/ao${texture_suffix}.ktx`;
 const metallic_url = `${prefix}/metallic${texture_suffix}.ktx`;
 const normal_url = `${prefix}/normal${texture_suffix}.ktx`;
 const roughness_url = `${prefix}/roughness${texture_suffix}.ktx`;
-const filamat_url = testParams
+const filamat_url = noMaps
     ? `${prefix}/texturedTestParams.filamat`
     : `${prefix}/textured.filamat`;
-const filamesh_url = testParams
-    ? `${prefix}/suzanneTestParams.filamesh`
-    : `${prefix}/suzanne.filamesh`;
+const filamesh_url = `${prefix}/suzanne.filamesh`;
 
 const redball_filamat_url = "/assets/models/redball/plastic.filamat";
 
@@ -37,4 +35,4 @@ const urls = {
     redball_filamat_url,
 };
 
-export { urls };
+export { urls, noMaps };
