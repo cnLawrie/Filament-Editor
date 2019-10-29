@@ -11,3 +11,8 @@ export enum LightType {
     FOCUSED_SPOT,
     SPOT,
 }
+
+export enum FilamatType {
+    transparency,
+    opaque,
+}

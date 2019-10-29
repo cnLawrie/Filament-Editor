@@ -17,10 +17,22 @@ class Model {
         this.store = $$.events.call("store");
     }
 
+    updateFilamesh() {
+        this.engine.destroyEntity(this.model);
+        console.log(this.Material.matinstance);
+        const filamesh = this.engine.loadFilamesh(
+            urls.filamesh_url,
+            this.Material.matinstance,
+        );
+        this.model = filamesh.renderable;
+        this.scene.addEntity(this.model);
+    }
+
     initialize() {
         this.scene = this.store.scene;
         this.engine = this.store.engine;
         this.Material = this.store.Material;
+        this.Scene = this.store.Scene;
 
         this.AttributeType = Filament.VertexBuffer$AttributeType;
         this.IndexType = Filament.IndexBuffer$IndexType;
@@ -29,6 +41,9 @@ class Model {
         const filamesh = this.engine.loadFilamesh(
             urls.filamesh_url,
             this.Material.matinstance,
+            // {
+            //     noMap: this.Material.matinstanceNoMap
+            // }
         );
         this.model = filamesh.renderable;
 

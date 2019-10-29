@@ -1,6 +1,8 @@
 material {
     name: matTestParams,
     shadingModel: lit,
+    blending: transparent,
+    transparency : default,
     parameters: [
         { type : float4, name : baseColor },
         { type : float,  name : metallic },

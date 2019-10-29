@@ -353,6 +353,19 @@ const MaterialTab = observer(() => {
                     </Col>
                 </Row>
             </Panel>
+            <Panel header='透明' key='transparency'>
+                <div></div>
+                <Row className={"customRow"}>
+                    <Checkbox
+                        onChange={() =>
+                            materialStore.updateMaterial(
+                                "transparency",
+                                !materialStore.transparency,
+                            )
+                        }
+                    />
+                </Row>
+            </Panel>
         </Collapse>
     );
 });

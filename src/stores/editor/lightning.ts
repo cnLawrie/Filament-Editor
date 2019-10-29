@@ -9,9 +9,9 @@ class Lightning {
 
     @o type: number = 0;
     @o color: number[] = [1, 1, 1];
-    @o direction: number[] = [0, -1, 0];
+    @o direction: number[] = [0, 0, -1];
     @o falloff: number = 1;
-    @o intensity: number = 1000;
+    @o intensity: number = 50000;
     @o position: number[] = [1, 1, 1];
     @o sunAngularRadius: number = 0.545;
     @o sunHaloFalloff: number = 80;
@@ -24,6 +24,7 @@ class Lightning {
     initialize() {
         this.scene = this.store.scene;
         this.engine = this.store.engine;
+        this.addCustomLight();
     }
 
     addCustomLight = () => {

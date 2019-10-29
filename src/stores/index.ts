@@ -36,14 +36,15 @@ class EditorStore implements CmsStore {
         this.Material = new Material();
         this.Camera = new Camera();
         this.Renderer = new Renderer();
-
         this.ui = new uiStore();
     }
 
     register(canvas: any) {
+        console.log(this.Material.filamat_url);
+
         Filament.init(
             [
-                urls.filamat_url,
+                this.Material.filamat_url,
                 urls.filamesh_url,
                 urls.sky_small_url,
                 urls.ibl_url,

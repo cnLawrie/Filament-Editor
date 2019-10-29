@@ -1,6 +1,15 @@
+import { FilamatType } from "./../../core/config/enum";
 import { urls } from "../config/urls";
-import { observable as o, action as a, toJS } from "mobx";
-import { noMaps } from "../config/urls";
+import {
+    observable as o,
+    action as a,
+    computed as c,
+    toJS,
+    reaction,
+} from "mobx";
+import { prefix } from "../config/urls";
+
+const filamat_url1 = `${prefix}/textured.filamat`;
 
 class Material {
     store: any;
@@ -8,6 +17,19 @@ class Material {
     engine: any;
     skybox: any;
     matinstance: any;
+    matinstanceNoMap: any;
+
+    @o matinstances: any = {};
+
+    @o noMaps: boolean = false;
+    @o transparency: boolean = false;
+    @c get filamat_url() {
+        return this.noMaps
+            ? this.transparency
+                ? `${prefix}/texturedTestTrans.filamat`
+                : `${prefix}/texturedTestParams.filamat`
+            : `${prefix}/textured.filamat`;
+    }
 
     @o baseColor = [1, 1, 1];
     @o metallic = 0;
@@ -28,35 +50,38 @@ class Material {
     }
 
     texturedTestParams = () => {
-        this.matinstance.setColor3Parameter(
+        this.matinstanceNoMap.setColor3Parameter(
             "baseColor",
             Filament.RgbType.LINEAR,
             toJS(this.baseColor),
         );
-        this.matinstance.setFloatParameter("metallic", this.metallic);
-        this.matinstance.setFloatParameter("roughness", this.roughness);
-        this.matinstance.setFloatParameter("reflectance", this.reflectance);
-        this.matinstance.setFloatParameter("clearCoat", this.clearCoat);
-        this.matinstance.setFloatParameter(
+        this.matinstanceNoMap.setFloatParameter("metallic", this.metallic);
+        this.matinstanceNoMap.setFloatParameter("roughness", this.roughness);
+        this.matinstanceNoMap.setFloatParameter(
+            "reflectance",
+            this.reflectance,
+        );
+        this.matinstanceNoMap.setFloatParameter("clearCoat", this.clearCoat);
+        this.matinstanceNoMap.setFloatParameter(
             "clearCoatRoughness",
             this.clearCoatRoughness,
         );
-        this.matinstance.setFloatParameter("anisotropy", this.anisotropy);
-        this.matinstance.setFloat3Parameter(
+        this.matinstanceNoMap.setFloatParameter("anisotropy", this.anisotropy);
+        this.matinstanceNoMap.setFloat3Parameter(
             "anisotropyDirection",
             this.anisotropyDirection,
         );
-        this.matinstance.setFloatParameter(
+        this.matinstanceNoMap.setFloatParameter(
             "ambientOcclusion",
             this.ambientOcclusion,
         );
-        this.matinstance.setFloat3Parameter("normal", this.normal);
-        this.matinstance.setFloat3Parameter(
+        this.matinstanceNoMap.setFloat3Parameter("normal", this.normal);
+        this.matinstanceNoMap.setFloat3Parameter(
             "clearCoatNormal",
             this.clearCoatNormal,
         );
-        this.matinstance.setFloat4Parameter("emissive", this.emissive);
-        this.matinstance.setFloat4Parameter(
+        this.matinstanceNoMap.setFloat4Parameter("emissive", this.emissive);
+        this.matinstanceNoMap.setFloat4Parameter(
             "postLightingColor",
             this.postLightingColor,
         );
@@ -87,27 +112,74 @@ class Material {
         this.scene = this.store.scene;
         this.engine = this.store.engine;
 
-        const material = this.engine.createMaterial(urls.filamat_url);
-        this.matinstance = material.createInstance();
+        const material = this.engine.createMaterial(this.filamat_url);
 
-        if (noMaps) {
-            this.texturedTestParams();
-        } else {
-            // TODO: fetch larger assets
-            Filament.fetch(
-                [
-                    urls.sky_large_url,
-                    urls.albedo_url,
-                    urls.roughness_url,
-                    urls.metallic_url,
-                    urls.normal_url,
-                    urls.ao_url,
-                ],
-                () => {
-                    this.textured();
-                },
-            );
-        }
+        // const material = this.engine.createMaterial(filamat_url);
+        this.matinstance = material.createInstance();
+        this.textured();
+
+        // if (this.noMaps) {
+        //     this.texturedTestParams();
+        // } else {
+        //     // TODO: fetch larger assets
+        Filament.fetch(
+            [
+                urls.sky_large_url,
+                urls.albedo_url,
+                urls.roughness_url,
+                urls.metallic_url,
+                urls.normal_url,
+                urls.ao_url,
+                filamat_url1,
+            ],
+            () => {
+                // this.matinstanceNoMap = material.createInstance();
+                // this.texturedTestParams();
+            },
+        );
+        // }
+
+        reaction(
+            () => this.transparency,
+            () => {
+                console.log(1);
+                if (
+                    (this.transparency &&
+                        !this.matinstances[FilamatType.transparency]) ||
+                    (!this.transparency &&
+                        !this.matinstances[FilamatType.opaque])
+                ) {
+                    Filament.fetch([this.filamat_url], () => {
+                        const material = this.engine.createMaterial(
+                            this.filamat_url,
+                        );
+                        this.matinstance = material.createInstance();
+                        this.transparency
+                            ? (this.matinstances[
+                                FilamatType.transparency
+                            ] = this.matinstance)
+                            : (this.matinstances[
+                                FilamatType.opaque
+                            ] = this.matinstance);
+                        this.store.Model.updateFilamesh();
+                        this.texturedTestParams();
+                    });
+                } else {
+                    this.matinstance = this.matinstances[
+                        this.transparency
+                            ? FilamatType.transparency
+                            : FilamatType.opaque
+                    ];
+                    this.store.Model.updateFilamesh();
+                    this.texturedTestParams();
+                }
+            },
+        );
+    }
+
+    @o
+    switchFilamat() {
+        this.transparency = !this.transparency;
     }
 
     @a
