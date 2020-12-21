@@ -1,15 +1,14 @@
-React Event
+# Filment-Editor
 
-interface Event { }
-interface AnimationEvent extends Event { }
-interface ClipboardEvent extends Event { }
-interface CompositionEvent extends Event { }
-interface DragEvent extends Event { }
-interface FocusEvent extends Event { }
-interface KeyboardEvent extends Event { }
-interface MouseEvent extends Event { }
-interface TouchEvent extends Event { }
-interface PointerEvent extends Event { }
-interface TransitionEvent extends Event { }
-interface UIEvent extends Event { }
-interface WheelEvent extends Event { }
+一个耗时两天基于Filament做的一个简易编辑器Demo。
+
+## Getting Started
+
+```bash
+安装依赖
+yarn
+
+开发模式
+yarn start
+
+```
